@@ -1,0 +1,9 @@
+bcrypt==4.0.1
+cryptography==42.0.5
+fastapi==0.110.2
+logger==1.4
+passlib==1.7.4
+pydantic==2.7.1
+pymysql==1.1.0
+sqlmodel==0.0.16
+uvicorn==0.29.0

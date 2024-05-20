@@ -1,0 +1,23 @@
+version: "2"
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: ./Dockerfile
+    environment:
+      - DB_URL=mysql+pymysql://root:password@mysql:3306/db
+    command: "python3 -m uvicorn api.main:app --port 8000 --host 0.0.0.0"
+    depends_on:
+      - mysql
+    ports:
+      - "8000:8000"
+
+  mysql:
+    container_name: technical-assessment-db
+    command: --default-authentication-plugin=caching_sha2_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=db
+    image: "mysql:8.0"
+    ports:
+      - "3306:3306"
