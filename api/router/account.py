@@ -7,7 +7,7 @@ from ..auth.auth import AuthService
 from ..db.service import UserService
 from ..model.response_model import InfoRes
 from ..model.request_model import UserCreate, UserVerify
-from ..utility.common import get_db
+from ..utility.utils import get_db
 from ..utility.config import MAX_RETRY
 
 

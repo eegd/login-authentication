@@ -5,7 +5,7 @@ from fastapi.responses import JSONResponse
 from .db import model
 from .db.database import engine
 from .router import account
-from .utility.exception_handler import ExceptionHandlerMiddleware
+from .utility.exception import ExceptionHandlerMiddleware
 import logging, sys
 
 app = FastAPI(title="Login Authentication")
