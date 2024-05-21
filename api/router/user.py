@@ -20,7 +20,7 @@ router = APIRouter()
     "/create",
     response_model=InfoRes,
     status_code=status.HTTP_201_CREATED,
-    response_description="Create new account",
+    response_description="Create new user",
 )
 def create(payload: UserCreate, db: Session = Depends(get_db)):
     hashed_password = auth.get_password_hash(payload.password)
@@ -34,7 +34,7 @@ def create(payload: UserCreate, db: Session = Depends(get_db)):
     "/verify",
     response_model=InfoRes,
     status_code=status.HTTP_200_OK,
-    response_description="Verify account",
+    response_description="Verify user",
 )
 def verify(payload: UserVerify, db: Session = Depends(get_db)):
     user = crud.get_user(payload.username, db)

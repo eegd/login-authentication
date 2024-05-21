@@ -4,7 +4,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
 from .db import model
 from .db.database import engine
-from .router import account
+from .router import user
 from .utility.exception import ExceptionHandlerMiddleware
 import logging, sys
 
@@ -52,4 +52,4 @@ async def logger_middleware(request: Request, call_next):
 
 
 app.add_middleware(ExceptionHandlerMiddleware)
-app.include_router(account.router, prefix="/account", tags=["account"])
+app.include_router(user.router, prefix="/user", tags=["user"])
