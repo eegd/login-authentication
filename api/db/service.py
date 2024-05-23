@@ -6,6 +6,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from . import model
 from .schema import IUser
+from ..model.response_model import InfoRes
 import logging
 
 
@@ -32,7 +33,7 @@ class UserService:
                 return JSONResponse(
                     status_code=status.HTTP_409_CONFLICT,
                     content=jsonable_encoder(
-                        {"success": False, "reason": "User is already existed"}
+                        InfoRes(success=False, reason="User is already existed")
                     ),
                 )
             else:
@@ -40,18 +41,18 @@ class UserService:
                 return JSONResponse(
                     status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                     content=jsonable_encoder(
-                        {"success": False, "reason": "Internal Server Error"}
+                        InfoRes(success=False, reason="Internal Server Error")
                     ),
                 )
 
-    def get_user(self, user_name: str, db: Session) -> IUser | JSONResponse:
+    def get_user(self, user_name: str | None, db: Session) -> IUser | JSONResponse:
         try:
             user = db.query(model.User).filter(model.User.username == user_name).first()
             if not user:
                 return JSONResponse(
                     status_code=status.HTTP_404_NOT_FOUND,
                     content=jsonable_encoder(
-                        {"success": False, "reason": "User not found"}
+                        InfoRes(success=False, reason="User not found")
                     ),
                 )
             return user
@@ -60,7 +61,7 @@ class UserService:
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 content=jsonable_encoder(
-                    {"success": False, "reason": "Internal Server Error"}
+                    InfoRes(success=False, reason="Internal Server Error")
                 ),
             )
 
@@ -80,6 +81,6 @@ class UserService:
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 content=jsonable_encoder(
-                    {"success": False, "reason": "Internal Server Error"}
+                    InfoRes(success=False, reason="Internal Server Error")
                 ),
             )

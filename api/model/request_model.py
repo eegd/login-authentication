@@ -14,8 +14,3 @@ class UserCreate(BaseModel):
                 "Password must contain at least one uppercase letter, one lowercase letter, and one number"
             )
         return value
-
-
-class UserVerify(BaseModel):
-    username: str
-    password: str
