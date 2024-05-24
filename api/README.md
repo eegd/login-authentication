@@ -1,7 +1,7 @@
 # API
-There are two part of this api, Create account and Verify account and password.
+There are two router of this api, Create user and Login for accessed token.
 
-## Create account
+## Create user
 
 1. Use post method with a JSON payload containing the following fields:
 
@@ -26,7 +26,7 @@ containing at least 1 uppercase letter, 1 lowercase letter, and 1 number.
 {"success": bool, "reason": str | None}
 ```
 
-## Verify account and password
+## Login for accessed token
 
 1. Use post method with a JSON payload containing the following fields:
 
@@ -34,12 +34,14 @@ containing at least 1 uppercase letter, 1 lowercase letter, and 1 number.
 {"username": str, "password": str}
 ```
 
- - Sample
-    - e.g. {"username": "Alex", "password": "Az1"}
-    - e.g. {"username": "John", "password": "Za2"}
-
-2.Returns a JSON payload containing the following field:
+2. If the password verification fails five times, the user should wait one minute before attempting to verify the password again.
 
 ```JSON
 {"success": bool, "reason": str | None}
+```
+
+3. Returns a JSON payload containing the following field:
+
+```JSON
+{"token": str, "type": str}
 ```

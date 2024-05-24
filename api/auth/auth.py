@@ -38,7 +38,7 @@ class AuthService:
         self,
         token: Annotated[str, Depends(oauth2_schema)],
         db: Session = Depends(get_db),
-    ):
+    ) -> InfoUser | JSONResponse:
         payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
         username = payload.get("sub")
         if not username:
