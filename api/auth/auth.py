@@ -4,12 +4,9 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
-from sqlalchemy.orm import Session
 from typing import Annotated
-from ..db.service import UserService
-from ..model.response_model import InfoRes, InfoUser
+from ..model.response_model import InfoRes
 from ..utility.config import GlobalConfig as cfg
-from ..utility.utils import get_db
 import jwt, logging
 
 
@@ -22,7 +19,6 @@ class AuthService:
         self.ALGORITHM = "HS256"
         self.ACCESS_TOKEN_EXPIRE_MINUTES = cfg.ACCESS_TOKEN_EXPIRE_MINUTES
         self.SECRET_KEY = cfg.SECRET_KEY
-        self.crud = UserService()
 
     def create_access_token(self, data: dict, expires_delta: timedelta | None) -> str:
         to_encode = data.copy()
@@ -37,8 +33,7 @@ class AuthService:
     def get_current_user(
         self,
         token: Annotated[str, Depends(oauth2_schema)],
-        db: Session = Depends(get_db),
-    ) -> InfoUser | JSONResponse:
+    ) -> str | JSONResponse:
         payload = jwt.decode(token, self.SECRET_KEY, algorithms=[self.ALGORITHM])
         username = payload.get("sub")
         if not username:
@@ -49,10 +44,7 @@ class AuthService:
                 ),
                 headers={"WWW-Authenticate": "Bearer"},
             )
-        user = self.crud.get_user(username, db)
-        if isinstance(user, JSONResponse):
-            return user
-        return InfoUser(username=user.username)
+        return username
 
     def get_password_hash(self, password: str) -> str:
         return self.pwd_context.hash(password)

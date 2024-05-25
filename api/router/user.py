@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, Depends
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from typing import Annotated
 from ..auth.auth import AuthService
@@ -33,5 +34,13 @@ async def create_user(payload: UserCreate, db: Session = Depends(get_db)):
     status_code=status.HTTP_200_OK,
     response_description="Read user",
 )
-async def read_user(current_user: Annotated[InfoUser, Depends(auth.get_current_user)]):
-    return current_user
+async def read_user(
+    current_user: Annotated[str, Depends(auth.get_current_user)],
+    db: Session = Depends(get_db),
+):
+    if isinstance(current_user, JSONResponse):
+        return current_user
+    user = crud.get_user(current_user, db)
+    if isinstance(user, JSONResponse):
+        return user
+    return InfoUser(username=user.username)
