@@ -12,8 +12,6 @@ There is one part of this project -> api.
 $ docker-compose up
 ```
 
-Hint: If you encounter error(2003, Can't connect to MySQL server on 'mysql' [Errno 111] Connection refused), please press CTRL+C to quit and setup containers again. (Remind should not delete Volumes).
-
 ### Browse Database in local env
 
 * MySQL
@@ -26,7 +24,7 @@ Hint: If you encounter error(2003, Can't connect to MySQL server on 'mysql' [Err
 
 ## Installation
 
-* Python version - 3.12
+* Python version - 3.10
 
 ```
 $ python3 -m pip install -r requirements.txt
