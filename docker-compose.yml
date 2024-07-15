@@ -4,9 +4,10 @@ services:
     build:
       context: ./api
       dockerfile: ./Dockerfile
+    container_name: login-authentication-api
+    command: "uvicorn api.main:app --port 8000 --host 0.0.0.0"
     environment:
       DB_URL: mysql+pymysql://root:password@mysql:3306/db
-    command: "uvicorn api.main:app --port 8000 --host 0.0.0.0"
     depends_on:
       mysql:
         condition: service_healthy
@@ -14,7 +15,7 @@ services:
       - "8000:8000"
 
   mysql:
-    container_name: technical-assessment-db
+    container_name: login-authentication-db
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: db
